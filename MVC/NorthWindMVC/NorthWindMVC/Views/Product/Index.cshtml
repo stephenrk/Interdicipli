@@ -1,0 +1,32 @@
+﻿@using NorthWindMVC.Models
+@model List<Product>
+@{
+    ViewBag.Title = "Produtos";
+    //Layout = null;
+}
+<label>@ViewBag.Message</label>
+    <table border="0">
+        <thread>
+            <tr>
+                <th>ProductID</th>
+                <th>ProductName</th>
+                <th>Preco</th>
+                <th>Categoria</th>
+                <th>SupplierID</th>
+                <th></th>                                 
+            </tr>
+        </thread>
+        @{
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductID</td>
+                    <td>@item.ProductName</td>
+                    <td>@item.UnitPrice</td>
+                    <td>@(item.Supplier != null ? item.Supplier.CompanyName : "")</td>
+                    <td>@(item.Category != null ? item.Category.CategoryName : "")</td>
+                    <td><a href="/Product/Edit?id=@(item.ProductID)">Editar</a></td>
+                </tr>
+            }
+        }
+    </table>

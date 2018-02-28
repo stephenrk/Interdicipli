@@ -1,0 +1,116 @@
+﻿@using DataNorthwind
+@model Employee
+@{
+    // Layout = null;
+    var Chefes = (List<Employee>) ViewBag.Chefes;    
+    
+    //Dictionary<int,string> lista = new Dictionary<int,string>();
+    //lista.Add(1, "SP");
+    //lista.Add(2, "RJ");
+    //lista.Add(3, "MS");
+    //lista.Add(4, "MG");
+    //lista.Add(5, "RS");
+
+    string[] lista = new string[] { "SP", "RJ", "MS", "MG", "RS" };
+    
+}
+
+<label>@ViewBag.Message</label>
+
+<form id="frm" method="post" action="/Employee/Save">
+    <table>
+        <tr>
+            <td>UF</td>
+            <td>@Html.DropDownList("UF",new SelectList(lista)) </td>
+        </tr>
+
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.EmployeeID)                
+            </td>
+            <td>
+                @Html.EditorFor(model => model.EmployeeID)
+            </td>
+
+            @*<td><input readonly type="text" id="EmployeeID" name="EmployeeID" 
+                       value="@Model.EmployeeID" /></td>*@
+        </tr>
+        <tr>
+            <td><label>Last Name</label></td>
+            <td>
+
+        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" }})
+        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+
+            </td>
+        </tr>
+        <tr>
+            <td><label>First Name</label></td>
+            <td>
+                <input data-val="true"
+                       data-val-required="First Name Obrigatório"
+                       data-val-length="Maximo 5 caracteres"
+                       value="@Model.FirstName"
+                       maxlength="10"
+                       type="text"
+                       id="FirstName"
+                       name="FirstName"
+                       class="form-control" />
+                <span class="field-validation-valid text-danger" 
+                      data-valmsg-for="FirstName" 
+                      data-valmsg-replace="true"></span>
+            </td>
+        </tr>
+        <tr>
+            <td><label>Birth Date</label></td>
+            <td>
+            @*<input value="@Model.BirthDate" type="text" id="BirthDate" name="BirthDate" />*@
+            @Html.EditorFor(model => model.BirthDate)
+            </td>
+        </tr>
+        <tr>
+            <td><label>Notes</label></td>
+            <td> <textarea name="Notes" id="Notes"
+          maxlength="200">@Model.Notes</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td><label>Adventista</label></td>
+            <td>
+                <input @(Model.Adventista == true ? "checked" : "") type="checkbox" id="Adventista" name="Adventista" value="true"/>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label>Chefe</label></td>
+            <td><select id="ReportsTo" name="ReportsTo">
+               <option></option>
+                @{
+                    foreach (var item in Chefes)
+                    {
+                        <option @(Model.ReportsTo == item.EmployeeID ? "selected" : "") 
+                            value="@item.EmployeeID">@item.LastName</option>
+                    }
+                }
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td>@Html.LabelFor(model => model.ReportsTo)</td>
+            <td>@Html.DropDownListFor(model => model.ReportsTo, new SelectList(Chefes,"EmployeeID","LastName"),string.Empty)
+            </td>
+        </tr>
+    </table>
+    <input type="submit" value="Enviar Dados" />
+</form>
+<br/>
+<form id="frmDel" method="post" action="/Employee/Delete">
+    <input type="hidden" id="EmployeeID" name="EmployeeID"
+           value="@Model.EmployeeID" />
+    <input type="submit" value="Excluir" />
+</form>
+<script>
+  $( function() {
+    $( document ).tooltip();
+  } );
+</script>

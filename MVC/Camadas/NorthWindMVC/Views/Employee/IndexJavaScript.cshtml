@@ -1,0 +1,48 @@
+﻿<p/>
+<table>
+    <tr>
+        <td><label>Nome:</label> </td>
+
+        <td><input type="text" id="FirstName" /></td>
+    </tr>
+    <tr>
+        <td colspan="2"> <button onclick="PreencherGrid();">Pesquisar</button></td>
+    </tr>
+</table>
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Nome</th>
+            <th>SobreNome</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="tableEmployee">
+
+    </tbody>
+</table>
+<script>
+    // Neste bloco, normalmente nós iniciamos a página
+    $(document).ready(function () {
+        PreencherGrid();
+    });
+    // Preencher um Select com os Chefes
+    function PreencherGrid () {
+        $.getJSON("@Url.Action("ListEmployeesJson", "Employee")?FirstName=" + $("#FirstName").val(),
+            null, function (data) {
+                var body = '';
+                for (var i = 0; i < data.length; i++) {
+                    body += '<tr>'
+                        + '<td>' + data[i].EmployeeID + '</td>'
+                        + '<td>' + data[i].FirstName + '</td>'
+                        + '<td>' + data[i].LastName + '</td>'
+                        + '<td>' + '<a href=NewJavaScript/' + data[i].EmployeeID + '> Editar </a>' + '</td>'
+                        + '</tr>' ;
+                }
+                $('#tableEmployee').html(body);
+            });
+    }
+</script>

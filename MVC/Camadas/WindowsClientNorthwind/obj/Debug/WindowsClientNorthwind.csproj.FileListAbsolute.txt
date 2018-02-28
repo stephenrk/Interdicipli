@@ -1,0 +1,9 @@
+C:\MVC\Camadas\WindowsClientNorthwind\bin\Debug\WindowsClientNorthwind.exe.config
+C:\MVC\Camadas\WindowsClientNorthwind\bin\Debug\WindowsClientNorthwind.exe
+C:\MVC\Camadas\WindowsClientNorthwind\bin\Debug\WindowsClientNorthwind.pdb
+C:\MVC\Camadas\WindowsClientNorthwind\obj\Debug\WindowsClientNorthwind.csprojResolveAssemblyReference.cache
+C:\MVC\Camadas\WindowsClientNorthwind\obj\Debug\WindowsClientNorthwind.Form1.resources
+C:\MVC\Camadas\WindowsClientNorthwind\obj\Debug\WindowsClientNorthwind.Properties.Resources.resources
+C:\MVC\Camadas\WindowsClientNorthwind\obj\Debug\WindowsClientNorthwind.csproj.GenerateResource.Cache
+C:\MVC\Camadas\WindowsClientNorthwind\obj\Debug\WindowsClientNorthwind.exe
+C:\MVC\Camadas\WindowsClientNorthwind\obj\Debug\WindowsClientNorthwind.pdb

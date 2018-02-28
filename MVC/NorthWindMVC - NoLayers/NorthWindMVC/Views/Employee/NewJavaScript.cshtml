@@ -1,0 +1,236 @@
+﻿@using NorthWindMVC.Models
+@model Employee
+<table>
+    @*<tr>
+        <td>
+            @Html.LabelFor(model => model.EmployeeID)
+        </td>
+        <td>
+            @Html.EditorFor(model => model.EmployeeID)
+        </td>
+
+    </tr>*@
+    <tr>
+        <td><label>EmployeeID</label></td>
+        <td>
+            <input required="" type="number" id="EmployeeID" name="EmployeeID"
+                   value="@Model.EmployeeID" />
+        </td>
+    </tr>
+    <tr>
+        <td><label>Last Name</label></td>
+        <td>
+            <input required="" type="text" id="LastName" name="LastName"
+                   value="@Model.LastName" />
+        </td>
+    </tr>
+    <tr>
+        <td><label>First Name</label></td>
+        <td>
+            <input required="" type="text" id="FirstName" name="FirstName"
+                   value="@Model.FirstName" />
+        </td>
+    </tr>
+
+
+    <tr>
+        <td><label>Country</label></td>
+        <td>
+            <input type="text" id="Country" name="Country"
+                   value="@Model.Country" />
+        </td>
+    </tr>
+    <tr>
+        <td><label>Title Of Courtesy</label></td>
+        <td>
+            <input type="text" id="TitleOfCourtesy" name="TitleOfCourtesy"
+                   value="@Model.TitleOfCourtesy" />
+        </td>
+    </tr>
+    <tr>
+        <td><label>Birth Date</label></td>
+        <td>
+            <input type="text" id="BirthDate" name="BirthDate"
+                   value="@Model.BirthDate" />
+        </td>
+    </tr>
+    <tr>
+        <td><label>Hire Date</label></td>
+        <td>
+            <input type="text" id="HireDate" name="HireDate"
+                   value="@Model.HireDate" />
+        </td>
+    </tr>
+    <tr>
+        <td><label>Address</label></td>
+        <td>
+            <input type="text" id="Address" name="Address"
+                   value="@Model.Address" />
+        </td>
+    </tr>
+    <tr>
+        <td><label>ReportsTo</label></td>
+        <td>
+            <select id="ReportsTo" name="ReportsTo"
+                   value="@Model.ReportsTo" /></select>
+        </td>
+    </tr>
+    <tr>
+        <td><label>Region</label></td>
+        <td>
+            <input type="text" id="Region" name="Region"
+                   value="@Model.Region" />
+        </td>
+    </tr>
+
+
+
+    <tr>
+        <td><label>Notes</label></td>
+        <td><textarea rows="4" cols="50" type="text" id="Notes" name="Notes" />@Model.Notes</textarea></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <button onclick="SalvarDados();">Salvar</button>
+            <button onclick="ExcluirDados();">Excluir</button>
+        </td>
+    </tr>
+</table>
+
+
+
+
+<script>
+    $(document).ready(function () {
+        PreencheChefes();
+    });
+
+    function SalvarDados() {
+        var employee = {
+            EmployeeID: $('#EmployeeID').val(),
+            LastName: $('#LastName').val(),
+            FirstName: $('#FirstName').val(),
+            Title: $('#Title').val(),
+            TitleOfCourtesy: $('#TitleOfCourtesy').val(),
+            BirthDate: $('#BirthDate').val(),
+            HireDate: $('#HireDate').val(),
+            Address: $('#Address').val(),
+            City: $('#City').val(),
+            Region: $('#Region').val(),
+            PostalCode: $('#PostalCode').val(),
+            Country: $('#Country').val(),
+            HomePhone: $('#HomePhone').val(),
+            Extension: $('#Extension').val(),
+            Notes: $('#Notes').val(),
+            ReportsTo: $('#ReportsTo').val(),
+            Adventista: $('#Adventista').val()
+        };
+        /// eviar para c#pess
+        $.ajax({
+            datatype: 'json',
+            type: 'POST',
+            url: '@Url.Action("SaveJson","Employee")',
+            data: { e: employee },
+            success: function (data) {
+                if (data.success == true) {
+                    alert('Salvo' + data.Data.EmployeeID);
+                }
+                else {
+                    alert(data.message);
+                }
+            },
+            error: function (data) {
+                alert(data.responseText);
+            }
+        });
+    }
+
+
+
+    function ExcluirDados() {
+        var employee = {
+            EmployeeID: $('#EmployeeID').val()
+        };
+        /// eviar para c#pess
+        $.ajax({
+            datatype: 'json',
+            type: 'POST',
+            url: '@Url.Action("DeleteJson", "Employee")',
+            data: { e: employee },
+            success: function (data) {
+                if (data.success == true) {
+                    alert('Removido');
+                }
+                else {
+                    alert(data.message);
+                }
+            },
+            error: function (data) {
+                alert(data.responseText);
+            }
+        });
+    }
+
+    function PreencheChefes() {
+        $.getJSON("@Url.Action("ListEmployees", "Employee")",
+            null, function (data) {
+                var options = '<option/>';
+                for (var i = 0; i < data.length; i++) {
+                    options += '<option value="'
+                        + data[i].EmployeeID + '">'
+                        + data[i].LastName
+                        + '</option>';
+                }
+                $('#ReportsTo').html(options);
+            })
+            .done(function() {
+                $('#ReportsTo').val('@Model.ReportsTo');
+            });
+    }
+
+     $(function () {
+        $("#Country").autocomplete({
+            minLength: 1,
+            source: function (request,response) {
+                $.getJSON("@Url.Action("ListCountries","Customer")"
+                    + "?id=" + $("#Country").val(),
+                    null, function (data) {
+                    response(data);
+                });
+            }
+        });
+    });
+
+
+    $(function () {
+        $("#BirthDate").datepicker();
+        $("#HireDate").datepicker();
+    });
+
+    jQuery(function ($) {
+        $.datepicker.regional['pt-BR'] = {
+            closeText: 'Fechar',
+            prevText: '&#x3c;Anterior',
+            nextText: 'Pr&oacute;ximo&#x3e;',
+            currentText: 'Hoje',
+            monthNames: ['Janeiro', 'Fevereiro', 'Mar&ccedil;o', 'Abril', 'Maio', 'Junho',
+            'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+            monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+            'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+            dayNames: ['Domingo', 'Segunda-feira', 'Ter&ccedil;a-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sabado'],
+            dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+            dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+            weekHeader: 'Sm',
+            dateFormat: 'dd/mm/yy',
+            firstDay: 0,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: ''
+        };
+        $.datepicker.setDefaults($.datepicker.regional['pt-BR']);
+    });
+
+
+
+
+</script>

@@ -1,0 +1,246 @@
+﻿@using DataNorthwind
+@{
+    
+}
+@model Employee
+<div id="lblMensagem">
+    
+</div>
+
+<form id="frmEmployee">
+    <table>
+        <tr>
+            <td>
+                @Html.LabelFor(model => model.EmployeeID)
+            </td>
+            <td>
+                <input id="EmployeeID" name="EmployeeID" type="text" value="@Model.EmployeeID" />
+            </td>
+        </tr>
+        <tr>
+            <td><label>Last Name</label></td>
+            <td>
+                @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+            </td>
+        </tr>
+        <tr>
+            <td><label>First Name</label></td>
+            <td><input value="@Model.FirstName" maxlength="10" type="text" id="FirstName" name="FirstName" /></td>
+        </tr>
+        <tr>
+            <td><label>Country</label></td>
+            <td><input value="@Model.Country" type="text" id="Country" name="Country" /></td>
+        </tr>
+        <tr>
+            <td><label>Birth Date</label></td>
+            <td>
+                @Html.EditorFor(model => model.BirthDate)
+            </td>
+        </tr>
+        <tr>
+            <td><label>Notes</label></td>
+            <td>
+                <textarea name="Notes" id="Notes"
+                          maxlength="200">
+                    @Model.Notes
+                    </textarea>
+                </td>
+            </tr>
+            <tr>
+                <td><label>Adventista</label></td>
+                <td>
+                    <input @(Model.Adventista == true ? "checked" : "") type="checkbox" id="Adventista" name="Adventista" value="true" />
+                </td>
+            </tr>
+            <tr>
+                <td><label>Chefe</label></td>
+                <td>
+                    <select id="ReportsTo" name="ReportsTo"></select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <button onclick="SalvarDados();">Salvar</button>
+                    <button onclick="ExcluirRegistro();">Excluir</button>
+                </td>
+            </tr>
+        </table>
+        <br />
+    </form>
+
+<script>
+    // Preencher um Select com os Chefes
+    $(function () {
+        $.getJSON("@Url.Action("ListEmployees", "Employee")",
+            null, function (data) {
+                var options = '<option/>';
+                for (var i = 0; i < data.length; i++) {
+                    options += '<option value="'
+                        + data[i].EmployeeID + '">'
+                        + data[i].LastName
+                        + '</option>';
+                }
+                $('#ReportsTo').html(options);
+                $('#ReportsTo').val('@Model.ReportsTo');
+            })
+    });
+
+    $(function () {
+        $("#BirthDate").datepicker();
+    });
+
+    $(function () {
+        $("#Country").autocomplete({
+            minLength: 1,
+            source: function (request, response) {
+                $.getJSON("@Url.Action("ListCountries","Customer")"
+                    + "?id=" + $("#Country").val(),
+                    null, function (data) {
+                        response(data);
+                    });
+            }
+        });
+    });
+
+    function ExcluirRegistro() {
+
+        // prepara a o Objeto Json
+        var employee = {
+            EmployeeID: $('#EmployeeID').val()
+        };
+        // enviar dados para serem excluidos
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: '@Url.Action("DeleteJson", "Employee")',
+            data: { e: employee },
+            success: function (abobrinha) {
+                if (abobrinha.success) {
+                    alert('O registro foi excluidor');
+                }
+                else {
+                    alert(abobrinha.message);
+                }
+
+            },
+            error: function (mandioquinha) {
+                alert(mandioquinha.responseText);
+            }
+        });
+    }
+
+    function SalvarDados() {
+
+        // prepara a o Objeto Json
+        var employee = {
+            EmployeeID: $('#EmployeeID').val(),
+            LastName: $('#LastName').val(),
+            FirstName: $('#FirstName').val(),
+            Title: $('#Title').val(),
+            TitleOfCourtesy: $('#TitleOfCourtesy').val(),
+            BirthDate: $('#BirthDate').val(),
+            HireDate: $('#HireDate').val(),
+            Address: $('#Address').val(),
+            City: $('#City').val(),
+            Region: $('#Region').val(),
+            PostalCode: $('#PostalCode').val(),
+            Country: $('#Country').val(),
+            HomePhone: $('#HomePhone').val(),
+            Extension: $('#Extension').val(),
+            ReportsTo: $('#ReportsTo').val(),
+            Notes: $('#Notes').val(),
+            Adventista: $('#Adventista').val()
+        };
+        // enviar dados para serem salvos
+        $.ajax({
+            dataType: 'json',
+            type: 'POST',
+            url: '@Url.Action("SaveJson","Employee")',
+            data: { e: employee },
+            success: function (abobrinha) {
+                if (abobrinha.success) {
+                    alert('O registro foi salvo com o Código: ' + abobrinha.Data.EmployeeID);
+                    LimparDados();
+                }
+                else {
+                    var msg = "<div class='alert alert-danger'>"
+                        + abobrinha.message
+                        + "</div>";
+                    $('#lblMensagem').html(msg);
+                }
+
+            },
+            error: function (mandioquinha) {
+                alert(mandioquinha.responseText);
+            }
+        });
+    }
+
+    function LimparDados() {
+        // Limpe todos os dados da tela
+        $(':input').val('');
+    }
+
+    function verificarCPF(c) {
+        var i;
+        s = c;
+        var c = s.substr(0, 9);
+        var dv = s.substr(9, 2);
+        var d1 = 0;
+
+        for (i = 0; i < 9; i++) {
+            d1 += c.charAt(i) * (10 - i);
+        }
+        if (d1 == 0) {
+            return false;
+        }
+        d1 = 11 - (d1 % 11);
+        if (d1 > 9) d1 = 0;
+        if (dv.charAt(0) != d1) {
+            return false;
+        }
+
+        d1 *= 2;
+        for (i = 0; i < 9; i++) {
+            d1 += c.charAt(i) * (11 - i);
+        }
+        d1 = 11 - (d1 % 11);
+        if (d1 > 9) d1 = 0;
+        if (dv.charAt(1) != d1) {
+            return false;
+        }
+        return true;
+    }
+
+
+    // alert('ola mundo. Agora eu sou programador Java Script');
+
+    function MyFunction() {
+        alert('My Function');
+    }
+
+    function SoNumero(keypress, objeto) {
+        campo = eval(objeto);
+        digitado = eval(keypress);
+
+
+        // DATA
+        //	alert(digitado);
+        //	return false;
+
+        if (digitado == 13) {
+            document.form.submit();
+            return false;
+        }
+        if (digitado != 48 && digitado != 49 && digitado != 50 && digitado != 51 && digitado != 52 && digitado != 53 && digitado != 54 && digitado != 55 && digitado != 56 && digitado != 57) {
+            return false;
+        }
+
+
+        return true;
+    }
+
+
+
+</script>

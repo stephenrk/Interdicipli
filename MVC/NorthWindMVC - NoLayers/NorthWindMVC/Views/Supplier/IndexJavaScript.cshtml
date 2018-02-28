@@ -1,0 +1,49 @@
+﻿@model List<NorthWindMVC.Models.Supplier>
+@{
+    //Layout = null;
+}
+
+    <table border="0">
+        <tr>
+            <td>Categorias</td>
+            <td>
+                <select id="CategoryID" onchange="PreencherProdutos();">
+                    <option></option>
+                    <option>Categoria 1</option>
+                </select>
+            </td>
+        </tr> 
+        <tr>
+            <td>Produtos</td>
+            <td>
+                <select id="ProductID">
+                    <option></option>
+                </select>
+            </td>
+        </tr>       
+    </table>
+
+
+    $(document).ready(function () {
+        PreencherGrid();
+    });
+
+    
+
+    function PreencherGrid() {
+        $.getJSON("@Url.Action("ListSuppliersJson", "Supplier")" + "?CompanyName=" + $("#CompanyName").val(),
+                    null, function (data) {
+                        var dados = '';
+                        for (var i=0;i<data.length;i++){
+                            dados += '<tr>"'
+                            + '<td>' + data[i].SupplierID + '</td>'
+                            + '<td>' + data[i].CompanyName + '</td>'
+                            + '<td>' + data[i].ContactName + '</td>'
+                            + '<td>' + '<a href=NewJavaScript/' + data[i].SupplierID + '>Editar <\a>' + '</td>'
+                            + '<td>' + '</td>'
+                            + '</tr>';
+                        }
+                        $('#tableSupplier').html(dados);
+                    });
+    }
+</script>

@@ -1,0 +1,143 @@
+﻿@using NorthWindMVC.Models
+@model Employee
+@{
+    //Layout = null;
+    var Empregados = (List<Employee>)ViewBag.Empregados;
+
+    //Dictionary<int, string> lista = new Dictionary<int, string>();
+    //lista.Add(1, "sp");
+    //lista.Add(2, "rj");
+    //lista.Add(3, "mg");
+    //lista.Add(4, "mt");
+    //lista.Add(5, "es");
+    //lista.Add(6, "rs");
+
+    string[] lista = new string[] { "SP", "RJ", "MG", "RS" };
+}
+
+<label>@ViewBag.Message</label>
+    <form id="frm" method="post" action="/Employee/Save">
+
+        <table>
+            <tr>
+                <td>UF</td>
+                <td>@Html.DropDownList("UF",new SelectList(lista))</td>
+            </tr>
+
+            <tr>
+                <td>
+                    @Html.LabelFor(model => model.EmployeeID)</td>
+                <td>
+                    @Html.EditorFor(model => model.EmployeeID)</td>
+                    @* <td><label>Employee ID</label></td>
+            <td><input readonly="" readtype="text" id="EmployeeID" name="EmployeeID"
+                       value="@Model.EmployeeID" /></td>*@
+</tr>
+            <tr>
+                <td><label>Last Name</label></td>
+                <td><input required="" type="text" id="LastName" name="LastName" 
+                           value="@Model.LastName"/></td>
+            </tr>
+            <tr>
+                <td><label>First Name</label></td>
+                <td><input required="" type="text" id="FirstName" name="FirstName"
+                           value="@Model.FirstName" /></td>
+            </tr>
+
+
+            <tr>
+                <td><label>Title</label></td>
+                <td><input type="text" id="Title" name="Title" 
+                           value="@Model.Title"/></td>
+            </tr> 
+            <tr>
+                <td><label>Title Of Courtesy</label></td>
+                <td><input type="text" id="TitleOfCourtesy" name="TitleOfCourtesy" 
+                           value="@Model.TitleOfCourtesy"/></td>
+            </tr> 
+            <tr>
+                <td><label>Birth Date</label></td>
+                <td><input type="text" id="BirthDate" name="BirthDate" 
+                           value="@Model.BirthDate"/></td>
+            </tr> 
+            <tr>
+                <td><label>Hire Date</label></td>
+                <td><input type="text" id="HireDate" name="HireDate" 
+                           value="@Model.HireDate"/></td>
+            </tr> 
+            <tr>
+                <td><label>Address</label></td>
+                <td><input type="text" id="Address" name="Address" 
+                           value="@Model.Address"/></td>
+            </tr> 
+            <tr>
+                <td><label>City</label></td>
+                <td><input type="text" id="City" name="City" 
+                           value="@Model.City"/></td>
+            </tr> 
+            <tr>
+                <td><label>Region</label></td>
+                <td><input type="text" id="Region" name="Region" 
+                           value="@Model.Region"/></td>
+            </tr> 
+            <tr>
+                <td><label>Postal Code</label></td>
+                <td><input type="text" id="PostalCode" name="PostalCode" 
+                           value="@Model.PostalCode"/></td>
+            </tr> 
+            <tr>
+                <td><label>Country</label></td>
+                <td><input type="text" id="Country" name="Country" 
+                           value="@Model.Country"/></td>
+            </tr> 
+            <tr>
+                <td><label>Home Phone</label></td>
+                <td><input type="text" id="HomePhone" name="HomePhone" 
+                           value="@Model.HomePhone"/></td>
+            </tr> 
+            <tr>
+                <td><label>Extension</label></td>
+                <td><input type="text" id="Extension" name="Extension" 
+                           value="@Model.Extension"/></td>
+            </tr>            
+
+            <tr>
+                <label for="Adventista">Adventista</label>
+                <input @(Model.Adventista == true? "checked" : "") 
+                       type="checkbox" id="Adventista" name="Adventista"
+                       >
+            </tr>
+
+            @*<tr>
+                <td><label>ReportsTo</label></td>
+                    <td><select name="ReportsTo" id="ReportsTo">
+
+                            <option></option>
+                        @{
+                            foreach (var item in ViewBag.Empregados)
+                            {
+                                <option 
+                                        @(Model.ReportsTo == item.EmployeeID? "selected" : "") 
+                                         value="@item.EmployeeID"> @item.FirstName</option>
+                            }
+                        }
+                    </select>
+                    </td>
+            </tr>*@ 
+            <tr>
+                <td>@Html.LabelFor(model => model.ReportsTo)</td>
+                <td>@Html.DropDownListFor(model => model.ReportsTo,new SelectList(Empregados, "EmployeeID","LastName"))</td>
+            <tr>
+                <td><label>Notes</label></td>
+                <td><textarea rows="4" cols="50" type="text" id="Notes" name="Notes"/>@Model.Notes</textarea></td>
+            </tr> 
+
+        </table> 
+            <input type="submit" value="Enviar Dados" />
+
+    </form>
+<form id="frmdel" method="post" action="/Employee/Delete">
+    <input  type="hidden" id="EmployeeID" name="EmployeeID"
+           value="@Model.EmployeeID" />
+    <input type="submit" value="Excluir" />
+</form>

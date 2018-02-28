@@ -1,0 +1,76 @@
+﻿@model IEnumerable<NorthWindMVC.Models.Customer>
+
+@using (Html.BeginForm("Index", "Customer"))
+{
+
+    <table>
+        <tr>
+            <td><label for="CompanyName">Company Name</label></td>
+            <td><input type="text" name="CompanyName" id="CompanyName" value="@ViewBag.CompanyName"/></td>
+        </tr>
+        <tr>
+            <td><label for="Country">Country</label></td>
+            <td><input type="text" name="Country" id="Country" value="@ViewBag.Country"/></td>
+        </tr>
+        <tr>
+            <td colspan="2"><input type="submit" value="Pesquisar" /></td>
+        </tr>
+    </table>
+}
+
+
+    <p>
+        @Html.ActionLink("Create New", "New")
+    </p>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CompanyName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContactName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContactTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Fax)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Country)
+            </th>
+            <th></th>
+        </tr>
+    
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CompanyName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContactTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Phone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fax)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Country)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.CustomerID.Trim() }) |
+                @Html.ActionLink("Details", "Details", new { id = item.CustomerID.Trim() }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.CustomerID.Trim() })
+            </td>
+        </tr>
+    }
+    
+    </table>

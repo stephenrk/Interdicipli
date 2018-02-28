@@ -1,0 +1,12 @@
+C:\MVC\Camadas\TestDataNorthwind\bin\Debug\TestDataNorthwind.dll.config
+C:\MVC\Camadas\TestDataNorthwind\bin\Debug\TestDataNorthwind.dll
+C:\MVC\Camadas\TestDataNorthwind\bin\Debug\TestDataNorthwind.pdb
+C:\MVC\Camadas\TestDataNorthwind\bin\Debug\DataNorthwind.dll
+C:\MVC\Camadas\TestDataNorthwind\bin\Debug\EntityFramework.dll
+C:\MVC\Camadas\TestDataNorthwind\bin\Debug\EntityFramework.SqlServer.dll
+C:\MVC\Camadas\TestDataNorthwind\bin\Debug\DataNorthwind.pdb
+C:\MVC\Camadas\TestDataNorthwind\bin\Debug\EntityFramework.xml
+C:\MVC\Camadas\TestDataNorthwind\bin\Debug\EntityFramework.SqlServer.xml
+C:\MVC\Camadas\TestDataNorthwind\obj\Debug\TestDataNorthwind.csprojResolveAssemblyReference.cache
+C:\MVC\Camadas\TestDataNorthwind\obj\Debug\TestDataNorthwind.dll
+C:\MVC\Camadas\TestDataNorthwind\obj\Debug\TestDataNorthwind.pdb

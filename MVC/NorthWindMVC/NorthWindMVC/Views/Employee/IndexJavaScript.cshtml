@@ -1,0 +1,50 @@
+﻿@model List<NorthWindMVC.Models.Employee>
+@{
+    //Layout = null;
+}
+<label>@ViewBag.Message</label>
+<tr>
+    <td><label>Nome</label></td>
+    <td>
+        <input required="" type="text" id="FirstName" name="FirstName" />
+        <button onclick="PreencherGrid();">Pesquisar</button>
+    </td>
+    @Html.ActionLink("New", "NewJavaScript")
+</tr>
+
+    <table border="0">
+        <thread>
+            <tr>
+                <th>Codigo</th>
+                <th>Nome</th>
+                <th>SobreNome</th>
+                <th></th>
+            </tr>
+        </thread>
+        <tbody id="tableEmployee">
+        </tbody>        
+    </table>
+<script>
+    $(document).ready(function () {
+        PreencherGrid();
+    });
+
+    
+
+    function PreencherGrid() {
+        $.getJSON("@Url.Action("ListEmployeesJson", "Employee")" + "?FirstName=" + $("#FirstName").val(),
+                    null, function (data) {
+                        var dados = '';
+                        for (var i=0;i<data.length;i++){
+                            dados += '<tr>"'
+                            + '<td>' + data[i].EmployeeID + '</td>'
+                            + '<td>' + data[i].FirstName + '</td>'
+                            + '<td>' + data[i].LastName + '</td>'
+                            + '<td>' + '<a href=NewJavaScript/' + data[i].EmployeeID + '>Editar <\a>' + '</td>'
+                            + '<td>' + '</td>'
+                            + '</tr>';
+                        }
+                        $('#tableEmployee').html(dados);
+                    });
+    }
+</script>

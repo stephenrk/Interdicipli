@@ -1,0 +1,36 @@
+﻿@using DataNorthwind
+@model List<Employee>
+@{
+   //  Layout = null;
+   ViewBag.Title = "Empregados";
+}
+
+@Html.ActionLink("Novo Funcionario", "New")
+
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Nome</th>
+            <th>SobreNome</th>
+            <th></th>
+        </tr>
+    </thead>
+    @{foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.EmployeeID</td>
+                <td>@item.FirstName</td>
+                <td>@item.LastName</td>
+                @*Crie um hiperlink para o Controller
+                Employee Método Edit passando como
+                parametro id = 1 para todas as linhas*@
+                <td>
+                    @*<a href="\Employee\Edit?id=@(item.EmployeeID)">Editar</a>*@
+                    @Html.ActionLink("Editar", "Edit", new { id = item.EmployeeID })         
+                </td>
+            </tr>
+        }
+    }
+</table>

@@ -1,0 +1,27 @@
+﻿@model List<NorthWindMVC.Models.Employee>
+@{
+    //Layout = null;
+}
+<label>@ViewBag.Message</label>
+    <table border="0">
+        <thread>
+            @Html.ActionLink("New", "New")
+            <tr>
+                <th>Codigo</th>
+                <th>Nome</th>
+                <th>SobreNome</th>
+                <th></th>
+            </tr>
+        </thread>
+        @{
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.EmployeeID</td>
+                    <td>@item.FirstName</td>
+                    <td>@item.LastName</td>
+                    <td>@Html.ActionLink("Edit", "Edit", new { id = item.EmployeeID })</td>
+                </tr>
+            }
+        }
+    </table>

@@ -1,0 +1,14 @@
+C:\MVC\Camadas\NorthwindServices\bin\Debug\NorthwindServices.dll.config
+C:\MVC\Camadas\NorthwindServices\bin\Debug\NorthwindServices.dll
+C:\MVC\Camadas\NorthwindServices\bin\Debug\NorthwindServices.pdb
+C:\MVC\Camadas\NorthwindServices\bin\Debug\BusinessNorthwind.dll
+C:\MVC\Camadas\NorthwindServices\bin\Debug\DataNorthwind.dll
+C:\MVC\Camadas\NorthwindServices\bin\Debug\EntityFramework.dll
+C:\MVC\Camadas\NorthwindServices\bin\Debug\BusinessNorthwind.pdb
+C:\MVC\Camadas\NorthwindServices\bin\Debug\DataNorthwind.pdb
+C:\MVC\Camadas\NorthwindServices\bin\Debug\EntityFramework.xml
+C:\MVC\Camadas\NorthwindServices\obj\Debug\NorthwindServices.csprojResolveAssemblyReference.cache
+C:\MVC\Camadas\NorthwindServices\obj\Debug\NorthwindServices.dll
+C:\MVC\Camadas\NorthwindServices\obj\Debug\NorthwindServices.pdb
+C:\MVC\Camadas\NorthwindServices\bin\Debug\EntityFramework.SqlServer.dll
+C:\MVC\Camadas\NorthwindServices\bin\Debug\EntityFramework.SqlServer.xml

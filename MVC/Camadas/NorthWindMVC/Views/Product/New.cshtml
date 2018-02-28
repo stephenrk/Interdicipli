@@ -1,0 +1,201 @@
+﻿@using NorthWindMVC.Models
+@model Supplier
+<table>
+    @*<tr>
+        <td>
+            @Html.LabelFor(model => model.SupplierID)
+        </td>
+        <td>
+            @Html.EditorFor(model => model.SupplierID)
+        </td>
+
+    </tr>*@
+    <tr>
+        <td><label>SupplierID</label></td>
+        <td>
+            <input required="" type="number" id="SupplierID" name="SupplierID"
+                   value="@Model.SupplierID" />
+        </td>
+    </tr>
+    <tr>
+        <td><label>Company Name</label></td>
+        <td>
+            <input required="" type="text" id="CompanyName" name="CompanyName"
+                   value="@Model.CompanyName" />
+        </td>
+    </tr>
+    <tr>
+        <td><label>Contact Name</label></td>
+        <td>
+            <input required="" type="text" id="ContactName" name="ContactName"
+                   value="@Model.ContactName" />
+        </td>
+    </tr>
+
+
+    <tr>
+        <td><label>Contact Title</label></td>
+        <td>
+            <input type="text" id="ContactTitle" name="ContactTitle"
+                   value="@Model.ContactTitle" />
+        </td>
+    </tr>
+    <tr>
+        <td><label>City</label></td>
+        <td>
+            <input type="text" id="City" name="City"
+                   value="@Model.City" />
+        </td>
+    </tr>
+    <tr>
+        <td><label>Region</label></td>
+        <td>
+            <input type="text" id="Region" name="Region"
+                   value="@Model.Region" />
+        </td>
+    </tr>
+    <tr>
+        <td><label>PostalCode</label></td>
+        <td>
+            <input type="text" id="PostalCode" name="PostalCode"
+                   value="@Model.PostalCode" />
+        </td>
+    </tr>
+    <tr>
+        <td><label>Country</label></td>
+        <td>
+            <input type="text" id="Country" name="Country"
+                   value="@Model.Country" />
+        </td>
+    </tr>
+    
+    <tr>
+        <td><label>Phone</label></td>
+        <td>
+            <input type="text" id="Phone" name="Phone"
+                   value="@Model.Phone" />
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="2">
+            <button onclick="SalvarDados();">Salvar</button>
+            <button onclick="ExcluirDados();">Excluir</button>
+        </td>
+    </tr>
+</table>
+
+
+
+
+<script>
+    $(document).ready(function () {
+        PreencheChefes();
+    });
+
+    function SalvarDados() {
+        var Supplier = {
+            SupplierID: $('#SupplierID').val(),
+            CompanyName: $('#CompanyName').val(),
+            ContactName: $('#ContactName').val(),
+            ContactTitle: $('#ContactTitle').val(),
+            Address: $('#Address').val(),
+            City: $('#City').val(),
+            Region: $('#Region').val(),
+            PostalCode: $('#PostalCode').val(),
+            Country: $('#Country').val(),
+            Phone: $('#Phone').val()
+        };
+        /// eviar para c#pess
+        $.ajax({
+            datatype: 'json',
+            type: 'POST',
+            url: '@Url.Action("SaveJson","Supplier")',
+            data: { e: Supplier },
+            success: function (data) {
+                if (data.success == true) {
+                    alert('Salvo' + data.Data.SupplierID);
+                }
+                else {
+                    alert(data.message);
+                }
+            },
+            error: function (data) {
+                alert(data.responseText);
+            }
+        });
+    }
+
+
+
+    function ExcluirDados() {
+        var Supplier = {
+            SupplierID: $('#SupplierID').val()
+        };
+        /// eviar para c#pess
+        $.ajax({
+            datatype: 'json',
+            type: 'POST',
+            url: '@Url.Action("DeleteJson", "Supplier")',
+            data: { e: Supplier },
+            success: function (data) {
+                if (data.success == true) {
+                    alert('Removido');
+                }
+                else {
+                    alert(data.message);
+                }
+            },
+            error: function (data) {
+                alert(data.responseText);
+            }
+        });
+    }
+
+    
+     $(function () {
+        $("#Country").autocomplete({
+            minLength: 1,
+            source: function (request,response) {
+                $.getJSON("@Url.Action("ListCountries","Customer")"
+                    + "?id=" + $("#Country").val(),
+                    null, function (data) {
+                    response(data);
+                });
+            }
+        });
+    });
+
+
+    $(function () {
+        $("#BirthDate").datepicker();
+        $("#HireDate").datepicker();
+    });
+
+    jQuery(function ($) {
+        $.datepicker.regional['pt-BR'] = {
+            closeText: 'Fechar',
+            prevText: '&#x3c;Anterior',
+            nextText: 'Pr&oacute;ximo&#x3e;',
+            currentText: 'Hoje',
+            monthNames: ['Janeiro', 'Fevereiro', 'Mar&ccedil;o', 'Abril', 'Maio', 'Junho',
+            'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+            monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+            'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+            dayNames: ['Domingo', 'Segunda-feira', 'Ter&ccedil;a-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sabado'],
+            dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+            dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+            weekHeader: 'Sm',
+            dateFormat: 'dd/mm/yy',
+            firstDay: 0,
+            isRTL: false,
+            showMonthAfterYear: false,
+            yearSuffix: ''
+        };
+        $.datepicker.setDefaults($.datepicker.regional['pt-BR']);
+    });
+
+
+
+
+</script>
